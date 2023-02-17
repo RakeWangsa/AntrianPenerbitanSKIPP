@@ -57,7 +57,7 @@
                     <div class="card info-card no-card mt-4">
                         <div class="card-body">
                             <h5 class="card-title">Antrian <span>| Hari ini</span></h5>
-                            <div id="trafficChart" style="min-height: 280px;" class="echart"></div>
+                            <div id="trafficChart" style="min-height: 305px;" class="echart"></div>
                             <script>document.addEventListener("DOMContentLoaded", () => {
                                 echarts.init(document.querySelector("#trafficChart")).setOption({
                                 tooltip: {
@@ -112,46 +112,104 @@
                             <iframe src="https://www.youtube.com/embed/brVjycsfvmY?controls=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
                         </div>
 
-                        <div class="row">
-                            <div class="col-xxl-8 col-md-6">
+                        <div class="row mt-4">
+                            <div class="col-xxl-4 col-md-6">
                                 <div class="card info-card2 no-card">
                                     <div class="card-body2">
                                         <h5 class="card-title text-center">Antrian Karantina Saat Ini</h5>
-                                        <p id="kode">K1</p>
-                                    </div>
-                                </div>
-                                <div class="card info-card2 no-card">
-                                    <div class="card-body2">
-                                        <h5 class="card-title text-center">Antrian Mutu Saat Ini</h5>
-                                        <p id="kode">M1</p>
+                                        @if(isset($antrianK))
+                                            <p id="kode" class="text-center">{{ $antrianK }}</p>
+                                        @else
+                                            <p class="text-center">Tidak ada antrian</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xxl-4 col-md-6">
                                 <div class="card info-card2 no-card">
                                     <div class="card-body2">
-                                        <h5 class="card-title text-center">Antrian CS Saat Ini</h5>
-                                        <p id="kode">CS1</p>
+                                        <h5 class="card-title text-center">Antrian Mutu Saat Ini</h5>
+                                        @if(isset($antrianM))
+                                            <p id="kode" class="text-center">{{ $antrianM }}</p>
+                                        @else
+                                            <p class="text-center">Tidak ada antrian</p>
+                                        @endif
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-xxl-4 col-md-6">
                                 <div class="card info-card2 no-card">
                                     <div class="card-body2">
-                                        <h5 class="card-title text-center">Ambil Nomor Antrian</h5>
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"> <i class="bx bxs-add-to-queue"></i></div>
-                                            <div class="ps-3">
-                                                <a href="/ambil/antrian" class="text-dark large text-bold">Pilih disini </a><i class="bi bi-chevron-double-right"></i>
-                                            </div>
-                                        </div>
+                                        <h5 class="card-title text-center">Antrian Customer Service Saat Ini</h5>
+                                        @if(isset($antrianCS))
+                                            <p id="kode" class="text-center">{{ $antrianCS }}</p>
+                                        @else
+                                            <p class="text-center">Tidak ada antrian</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    
+                        <div class="card info-card2 no-card">
+                            <div class="card-body2">
+                                <h5 class="card-title text-left">Ambil Nomor Antrian</h5>
+                                <div class="d-flex align-items-left justify-content-left">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"> <i class="bx bxs-add-to-queue"></i></div>
+                                    <div class="ps-3">
+                                        <a href="/ambil/antrian" class="text-dark large text-bold">Pilih disini </a><i class="bi bi-chevron-double-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                      
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xxl-4 col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item active" aria-current="true">Antrian Karantina</li>
+                        @if(isset($panggilK->no_antrian))
+                            <li class="list-group-item" style="background-color:#00e1ff">{{ $panggilK->no_antrian }} - {{ $panggilK->no_ppk }} - {{ $panggilK->tanggal_antrian }}</li>
+                        @else
+                            <li class="list-group-item">Tidak ada antrian</li>
+                        @endif                        
+                        @foreach ($listK as $item)
+                            <li class="list-group-item">{{ $item->no_antrian }} - {{ $item->no_ppk }} - {{ $item->tanggal_antrian }}</li>
+                        @endforeach
+                      </ul>
+                </div>
+                <div class="col-xxl-4 col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item active" aria-current="true">Antrian Mutu</li>
+                        @if(isset($panggilM->no_antrian))
+                        <li class="list-group-item" style="background-color:#00e1ff">{{ $panggilM->no_antrian }} - {{ $panggilM->no_ppk }} - {{ $panggilM->tanggal_antrian }}</li>
+                        @else
+                            <li class="list-group-item">Tidak ada antrian</li>
+                        @endif
+                        @foreach ($listM as $item)
+                            <li class="list-group-item">{{ $item->no_antrian }} - {{ $item->no_ppk }} - {{ $item->tanggal_antrian }}</li>
+                        @endforeach
+                      </ul>
+                </div>
+                <div class="col-xxl-4 col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item active" aria-current="true">Antrian Customer Service</li>
+                        @if(isset($panggilCS->no_antrian))
+                            <li class="list-group-item" style="background-color:#00e1ff">{{ $panggilCS->no_antrian }} - {{ $panggilCS->no_ppk }} - {{ $panggilCS->tanggal_antrian }}</li>
+                        @else
+                            <li class="list-group-item">Tidak ada antrian</li>
+                        @endif
+                        @foreach ($listCS as $item)
+                            <li class="list-group-item">{{ $item->no_antrian }} - {{ $item->no_ppk }} - {{ $item->tanggal_antrian }}</li>
+                        @endforeach
+                      </ul>
+                </div>
+            </div>
+           
+
+
         </div>
         </div>
     </section>

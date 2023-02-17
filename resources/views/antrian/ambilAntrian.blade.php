@@ -11,13 +11,23 @@
         <div class="row mt-3">
             <div class="card col-md-12">
                 <div class="card-body">
+                    <div class="mt-4">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    </div>
                     <form class="row g-3 mt-3" method="GET" action="{{route('ambilantrian')}}">
                         <div class="col-md-12"> <label for="noppk" class="form-label">Masukkan Nomor Pengajuan PPK</label> <input type="text" class="form-control" id="noppk" name="noppk" value="{{ old('noppk') }}"></div>
-                        {{-- <div class="col-md-12"> <label for="name" class="form-label">Masukkan Nama Anda</label> <input type="text" class="form-control" id="name" name="nama"  value="{{ old('nama') }}"></div> --}}
                         <div class="col-md-12">
                             <label for="jenislayanan" class="form-label">Pilih Jenis Layanan</label> 
                             <select id="jenislayanan" class="form-select" name="jenislayanan">
-                                <option selected>Pilih Jenis Layanan</option>
+                                <option>Pilih Jenis Layanan!</option>
                                 <option value="karantina">Karantina</option>
                                 <option value="mutu">Mutu</option>
                                 <option value="cs">Customer Service</option>

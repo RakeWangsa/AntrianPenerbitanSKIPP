@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Models\Antrian;
+use Illuminate\Validation\Rule;
+
 
 
 class AmbilAntrianController extends Controller
@@ -15,7 +17,20 @@ class AmbilAntrianController extends Controller
     public function ambil(Request $request){
         $antrian = new AntriansController();
 
+        $messages = [
+            'required' => ':attribute wajib diisi ',
+            'noppk.required' => 'Nomor Pengajuan PPK harus diisi!',
+            'jenislayanan.required' => 'Pilih Jenis Layanan!',
+            'jenislayanan.not_in' => 'Pilih Jenis Layanan!'
+        ];
+
+        $this->validate($request, [
+            "noppk" => 'required',
+            'jenislayanan' => ['required', Rule::notIn(['Pilih Jenis Layanan!'])],
+        ], $messages);
+
         $skrg = Carbon::now()->addHours(7);
+        $HariIni = Carbon::now()->addHours(7)->startOfDay();
 
         $waktuK = DB::table('antrians')
             ->where('jenis_layanan', 'karantina')
@@ -42,18 +57,21 @@ class AmbilAntrianController extends Controller
 
         $antriK = DB::table('antrians')
             ->where('jenis_layanan', 'karantina')
+            ->where('tanggal_antrian', '>', $HariIni)
             ->orderBy('id', 'desc')
             ->pluck('no_antrian')
             ->first();
 
         $antriM = DB::table('antrians')
             ->where('jenis_layanan', 'mutu')
+            ->where('tanggal_antrian', '>', $HariIni)
             ->orderBy('id', 'desc')
             ->pluck('no_antrian')
             ->first();
 
         $antriCS = DB::table('antrians')
             ->where('jenis_layanan', 'cs')
+            ->where('tanggal_antrian', '>', $HariIni)
             ->orderBy('id', 'desc')
             ->pluck('no_antrian')
             ->first();
@@ -128,5 +146,95 @@ class AmbilAntrianController extends Controller
             ]);
         }
          return redirect('/dashboard')->with('success');
+    }
+    public function tampil(Request $request){
+        
+        $skrg = Carbon::now()->addHours(7);
+        $HariIni = Carbon::now()->addHours(7)->startOfDay();
+
+        $antrianK = DB::table('antrians')
+            ->where('jenis_layanan', 'karantina')
+            ->where('tanggal_antrian', '<', $skrg)
+            ->where('tanggal_antrian', '>', $HariIni)
+            ->orderBy('id', 'desc')
+            ->pluck('no_antrian')
+            ->first();
+        $antrianM = DB::table('antrians')
+            ->where('jenis_layanan', 'mutu')
+            ->where('tanggal_antrian', '<', $skrg)
+            ->where('tanggal_antrian', '>', $HariIni)
+            ->orderBy('id', 'desc')
+            ->pluck('no_antrian')
+            ->first();
+
+        $antrianCS = DB::table('antrians')
+            ->where('jenis_layanan', 'cs')
+            ->where('tanggal_antrian', '<', $skrg)
+            ->where('tanggal_antrian', '>', $HariIni)
+            ->orderBy('id', 'desc')
+            ->pluck('no_antrian')
+            ->first();
+
+
+        $panggilK = DB::table('antrians')
+            ->where('jenis_layanan', 'karantina')
+            ->where('tanggal_antrian', '<', $skrg)
+            ->where('tanggal_antrian', '>', $HariIni)
+            ->orderBy('id', 'desc')
+            ->select('no_antrian', 'no_ppk', 'tanggal_antrian')
+            ->first();
+
+        $panggilM = DB::table('antrians')
+            ->where('jenis_layanan', 'mutu')
+            ->where('tanggal_antrian', '<', $skrg)
+            ->where('tanggal_antrian', '>', $HariIni)
+            ->orderBy('id', 'desc')
+            ->select('no_antrian', 'no_ppk', 'tanggal_antrian')
+            ->first();
+
+        $panggilCS = DB::table('antrians')
+            ->where('jenis_layanan', 'cs')
+            ->where('tanggal_antrian', '<', $skrg)
+            ->where('tanggal_antrian', '>', $HariIni)
+            ->orderBy('id', 'desc')
+            ->select('no_antrian', 'no_ppk', 'tanggal_antrian')
+            ->first();
+
+
+        $listK = DB::table('antrians')
+            ->where('jenis_layanan', 'karantina')
+            ->where('tanggal_antrian', '>', $skrg)
+            ->orderBy('id', 'asc')
+            ->select('no_antrian', 'no_ppk', 'tanggal_antrian')
+            ->get();
+
+        $listM = DB::table('antrians')
+            ->where('jenis_layanan', 'mutu')
+            ->where('tanggal_antrian', '>', $skrg)
+            ->orderBy('id', 'asc')
+            ->select('no_antrian', 'no_ppk', 'tanggal_antrian')
+            ->get();
+
+        $listCS = DB::table('antrians')
+            ->where('jenis_layanan', 'cs')
+            ->where('tanggal_antrian', '>', $skrg)
+            ->orderBy('id', 'asc')
+            ->select('no_antrian', 'no_ppk', 'tanggal_antrian')
+            ->get();
+
+        return view('dashboard.pengunjung', [
+            "title" => "Dashboard",
+            'active' => 'pengunjung',
+            'antrianK'=> $antrianK,
+            'antrianM'=> $antrianM,
+            'antrianCS'=> $antrianCS,
+            'listK'=> $listK,
+            'listM'=> $listM,
+            'listCS'=> $listCS,
+            'panggilK'=> $panggilK,
+            'panggilM'=> $panggilM,
+            'panggilCS'=> $panggilCS,
+
+        ]);
     }
 }

@@ -7,12 +7,12 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard.pengunjung', [
-        "title" => "Dashboard",
-        'active' => 'pengunjung'
-    ]);
-});
+// Route::get('/dashboard', function () {
+//     return view('dashboard.pengunjung', [
+//         "title" => "Dashboard",
+//         'active' => 'pengunjung'
+//     ]);
+// });
 
 Route::get('/dashboard/operator', function () {
     return view('dashboard.operator', [
@@ -34,5 +34,5 @@ Route::get('/ambil/antrian', function () {
         'active' => 'antrian'
     ]);
 });
-
+Route::get('/dashboard', [App\Http\Controllers\AmbilAntrianController::class, 'tampil'])->name('dashboard');
 Route::get('/ambil/antrian/submit', [App\Http\Controllers\AmbilAntrianController::class, 'ambil'])->name('ambilantrian');
