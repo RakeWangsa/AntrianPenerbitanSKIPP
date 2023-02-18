@@ -57,7 +57,7 @@
                     <div class="card info-card no-card mt-4">
                         <div class="card-body">
                             <h5 class="card-title">Antrian <span>| Hari ini</span></h5>
-                            <div id="trafficChart" style="min-height: 305px;" class="echart"></div>
+                            <div id="trafficChart" style="min-height: 285px;" class="echart"></div>
                             <script>document.addEventListener("DOMContentLoaded", () => {
                                 echarts.init(document.querySelector("#trafficChart")).setOption({
                                 tooltip: {
@@ -87,15 +87,15 @@
                                     show: false
                                     },
                                     data: [{
-                                        value: 1048,
+                                        value: {{ $countK }},
                                         name: 'Karantina'
                                     },
                                     {
-                                        value: 735,
+                                        value: {{ $countM }},
                                         name: 'Mutu'
                                     },
                                     {
-                                        value: 300,
+                                        value: {{ $countCS }},
                                         name: 'Customer Service'
                                     }
                                     ]
@@ -118,9 +118,9 @@
                                     <div class="card-body2">
                                         <h5 class="card-title text-center">Antrian Karantina Saat Ini</h5>
                                         @if(isset($antrianK))
-                                            <p id="kode" class="text-center">{{ $antrianK }}</p>
+                                            <p id="kode" class="text-center fw-bold">{{ $antrianK }}</p>
                                         @else
-                                            <p class="text-center">Tidak ada antrian</p>
+                                            <p class="text-center fw-bold">Tidak ada antrian</p>
                                         @endif
                                     </div>
                                 </div>
@@ -130,9 +130,9 @@
                                     <div class="card-body2">
                                         <h5 class="card-title text-center">Antrian Mutu Saat Ini</h5>
                                         @if(isset($antrianM))
-                                            <p id="kode" class="text-center">{{ $antrianM }}</p>
+                                            <p id="kode" class="text-center fw-bold">{{ $antrianM }}</p>
                                         @else
-                                            <p class="text-center">Tidak ada antrian</p>
+                                            <p class="text-center fw-bold">Tidak ada antrian</p>
                                         @endif
                                     </div>
                                 </div>
@@ -142,27 +142,41 @@
                                     <div class="card-body2">
                                         <h5 class="card-title text-center">Antrian Customer Service Saat Ini</h5>
                                         @if(isset($antrianCS))
-                                            <p id="kode" class="text-center">{{ $antrianCS }}</p>
+                                            <p id="kode" class="text-center fw-bold">{{ $antrianCS }}</p>
                                         @else
-                                            <p class="text-center">Tidak ada antrian</p>
+                                            <p class="text-center fw-bold">Tidak ada antrian</p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card info-card2 no-card">
-                            <div class="card-body2">
-                                <h5 class="card-title text-left">Ambil Nomor Antrian</h5>
-                                <div class="d-flex align-items-left justify-content-left">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"> <i class="bx bxs-add-to-queue"></i></div>
-                                    <div class="ps-3">
-                                        <a href="/ambil/antrian" class="text-dark large text-bold">Pilih disini </a><i class="bi bi-chevron-double-right"></i>
+                        <div class="row">
+                            <div class="col-xxl-4 col-md-6">
+                                <div class="card info-card2 no-card">
+                                    <a href="/ambil/antrian">
+                                    <div class="card-body2 d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
+                                            <i class="bx bxs-add-to-queue"></i>
+                                        </div>
+                                        <h5 class="card-title text-left">Ambil Nomor Antrian</h5>
+                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xxl-8 col-md-6">
+                                <div class="card info-card2 no-card">
+                                    <div class="card-body2">
+                                        <h5 class="card-title text-center">No Antrian anda :</h5>
+                                        @if(isset($antrianCS))
+                                            <p id="kode" class="text-center fw-bold">{{ $antrianCS }}</p>
+                                        @else
+                                            <p class="text-center fw-bold">Anda belum mengambil no antrian</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                     
                 </div>
             </div>
 
