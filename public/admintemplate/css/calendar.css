@@ -1,0 +1,59 @@
+.calendar{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    display: flex;
+}
+
+.card-body .calendar{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #111;
+}
+
+.calendar{
+    position: relative;
+    display: block;
+    width: 320px;
+    background: #fff;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#namaBulan{
+    position: relative;
+    padding: 5px 10px;
+    background: #ff6331;
+    color: black;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#namaHari{
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 300;
+    color: black;
+    text-align: center;
+}
+
+#tanggal{
+    margin-top: 0px;
+    line-height: 1em;
+    font-size: 80px;
+    font-weight: 700;
+    color: black;
+}
+
+#tahun{
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
